@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import './App.css';
 import ResultComponent from './components/ResultComponent';
 import KeyPadComponent from "./components/KeyPadComponent";
+import LogComponent from "./components/LogComponent";
 
 class App extends Component {
     constructor(props){
         super(props);
         this.handleChange = this.handleChange.bind(this)
 
-        this.state = { result: ""}
+        this.state = { 
+          result: "",
+          calcLog: [],
+      }
+         
     }
 
     onClick = button => {
@@ -32,7 +37,7 @@ class App extends Component {
     calculate = () => {
         var checkResult = ''
         if(this.state.result.includes('--')){
-            checkResult = this.state.result.replace('--','-')
+            checkResult = this.state.result.replace('--','+')
         }
 
         else {
@@ -40,10 +45,15 @@ class App extends Component {
         }
 
         try {
-            this.setState({
+            
+          var answer = (eval(checkResult) || "" ) + "";
+          this.setState({
                 // eslint-disable-next-line
-                result: (eval(checkResult) || "" ) + ""
+                result: answer
+
             })
+            this.updateLog(checkResult, answer);
+
         } catch (e) {
           alert('Error');  
           this.setState({
@@ -51,6 +61,18 @@ class App extends Component {
             })
 
         }
+
+        // eval errors if string is invalid
+        // This could also be used to update status of the equals button. If eval cant be performed on string without error then eqauls button remains disabled
+        // Usabiliy wise it is better to check on entry to validate input, js performance wise it is more efficient to display an error message
+        // https://stackoverflow.com/questions/46977962/eval-is-not-calculate-if-zero-before-the-number
+        // math js would strip out 00, 000, 01 etc. Could use parseFloat but not dealing with single values
+        
+
+    };
+
+    updateLog = (result, answer) => {
+      this.setState({ calcLog: [...this.state.calcLog, result + ' = ' + answer] })          
     };
 
     handleChange(e){
@@ -79,7 +101,8 @@ class App extends Component {
                 <div className="calculator-body" onKeyPress={this.handleKeyPress}>
                     <h1>Calculator</h1>
                     <ResultComponent {...this.state} handleChange = {this.handleChange}/>
-                    {/* <KeyPadComponent onClick={this.onClick}/> */}
+                    {<KeyPadComponent onClick={this.onClick}/>}
+                    <LogComponent {...this.state} />
                 </div>
             </div>
         );

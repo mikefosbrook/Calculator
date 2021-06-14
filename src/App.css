@@ -2,17 +2,19 @@
   height: 60px;
   background-color: #bbb;
   width: 100%;
+  margin-bottom: 10px;
+  font-size: 40px;
+  padding: 5px;
 }
 
-.result p {
-  font-size: 40px;
-  margin: 5px;
-
+label {
+  font-size: 20px;
 }
 
 .calculator-body {
   max-width: 400px;
   margin: auto;
+  position: relative;
 }
 
 .button {
@@ -24,4 +26,12 @@ button {
   width: 25%;
   height: 60px;
   font-size: 30px;
+}
+
+.log {
+  background-color:lightgray;
+  height: 200px;
+  font-size: 20px;
+  color: #000;
+  overflow: auto;
 }

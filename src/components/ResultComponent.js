@@ -9,12 +9,12 @@ class ResultComponent extends Component {
      render(){
         return  (
         <div>
-            <input value={this.props.result} onChange={this.props.handleChange}/>
+            <label>Result:</label>
+            <input className="result" title="Insert calculation here and press Enter to obtain result" value={this.props.result} onChange={this.props.handleChange}/>
         </div>
         )
       }
 }
-
 
 export default ResultComponent;
 
