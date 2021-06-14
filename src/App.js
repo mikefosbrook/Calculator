@@ -4,12 +4,11 @@ import ResultComponent from './components/ResultComponent';
 import KeyPadComponent from "./components/KeyPadComponent";
 
 class App extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this)
 
-        this.state = {
-            result: ""
-        }
+        this.state = { result: ""}
     }
 
     onClick = button => {
@@ -46,10 +45,11 @@ class App extends Component {
                 result: (eval(checkResult) || "" ) + ""
             })
         } catch (e) {
-          alert('Error')  
-          // this.setState({
-          //       result: "error"
-          //   })
+          alert('Error');  
+          this.setState({
+                result: ""
+            })
+
         }
     };
 
