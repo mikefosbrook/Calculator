@@ -33,7 +33,7 @@ class App extends Component {
     calculate = () => {
         var checkResult = ''
         if(this.state.result.includes('--')){
-            checkResult = this.state.result.replace('--','+')
+            checkResult = this.state.result.replace('--','-')
         }
 
         else {
@@ -46,12 +46,26 @@ class App extends Component {
                 result: (eval(checkResult) || "" ) + ""
             })
         } catch (e) {
-            this.setState({
-                result: "error"
-            })
-
+          alert('Error')  
+          // this.setState({
+          //       result: "error"
+          //   })
         }
     };
+
+    handleChange(e){
+      const re = /^[\d\+\/\*\.\- \(\)]*$/;
+      if (e.target.value === '' || re.test(e.target.value)) {
+         this.setState({ result: e.target.value })
+      }
+   }
+
+   handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      console.log('enter press here! ')
+      this.calculate();
+    }
+  }
 
     reset = () => {
         this.setState({
@@ -62,10 +76,10 @@ class App extends Component {
     render() {
         return (
             <div>
-                <div className="calculator-body">
+                <div className="calculator-body" onKeyPress={this.handleKeyPress}>
                     <h1>Calculator</h1>
-                    <ResultComponent result={this.state.result}/>
-                    <KeyPadComponent onClick={this.onClick}/>
+                    <ResultComponent {...this.state} handleChange = {this.handleChange}/>
+                    {/* <KeyPadComponent onClick={this.onClick}/> */}
                 </div>
             </div>
         );
